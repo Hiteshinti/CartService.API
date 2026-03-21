@@ -15,15 +15,17 @@ namespace CartService.Core.Mappers
         {
 
 
-            CreateMap<CartItemDto, Items>();
+            CreateMap<CartItemDto, Items>()
+                .ForMember(dest => dest.ItemId, opt => opt.MapFrom(src => Guid.Parse(src.ItemId)));
             // map collection -> Cart
             CreateMap<IEnumerable<CartItemDto>, Cart>()
                 .ForMember(dest => dest.CartId, opt => opt.MapFrom(_ => Guid.NewGuid()))
-                .ForMember(dest => dest.items, opt => opt.MapFrom(src => src));
+                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src));
 
             CreateMap<Cart, CartResponseDto>()
                 .ForMember(dest => dest.CartId, opt => opt.MapFrom(opt => opt.CartId))
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(opt => opt.UserId));
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(opt => opt.UserId))
+                .ForMember(dest => dest.success, opt => opt.MapFrom(_ => true));
         }   
     }
 }

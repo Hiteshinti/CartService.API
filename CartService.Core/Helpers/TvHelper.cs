@@ -17,7 +17,7 @@ namespace CartService.Core.Helpers
                 new SqlMetaData("ItemId", System.Data.SqlDbType.UniqueIdentifier),
                 new SqlMetaData("ItemName", System.Data.SqlDbType.NVarChar, 255),
                 new SqlMetaData("Quantity", System.Data.SqlDbType.Int),
-                new SqlMetaData("Pice", System.Data.SqlDbType.Float)
+                new SqlMetaData("Price", System.Data.SqlDbType.Float)
             };
 
             foreach (var item in items)

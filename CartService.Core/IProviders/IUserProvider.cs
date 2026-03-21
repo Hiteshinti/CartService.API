@@ -8,6 +8,6 @@ namespace CartService.Core.IProviders
 {
     public interface IUserProvider
     {
-        Task<string> ValidateUser(string token);
+        Task<Guid?> ValidateUser(string token, CancellationToken cancellationToken = default);
     }
 }

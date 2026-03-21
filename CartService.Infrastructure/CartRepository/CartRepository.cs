@@ -28,7 +28,7 @@ namespace CartService.Infrastructure
             var param = new DynamicParameters();
             param.Add("@CartId", cartItems.CartId);
             param.Add("@UserId", cartItems.UserId);
-            param.Add("@items", cartItems.items.ToSqlRecords().AsTableValuedParameter("dbo.ItemTableType"));
+            param.Add("@items", (cartItems.Items ?? []).ToSqlRecords().AsTableValuedParameter("dbo.ItemTableType"));
               
 
             using (var result = await _dbcontext.DbConnection.QueryMultipleAsync(Constants.InsertCartItem, param, commandType:CommandType.StoredProcedure))
@@ -39,7 +39,7 @@ namespace CartService.Infrastructure
                 if (cart == null)
                     return null;
 
-                cart.items = items.ToList();
+                cart.Items = items.ToList();
                 return cart;
             }
              

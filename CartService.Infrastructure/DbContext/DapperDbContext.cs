@@ -18,6 +18,10 @@ namespace CartService.Infrastructure.DbContext
         {
               _configuration = configuration;
               string? constr = _configuration.GetConnectionString("DefaultConnection");
+              if (string.IsNullOrWhiteSpace(constr))
+              {
+                  throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured.");
+              }
               _connection = new SqlConnection(constr);
         }
 

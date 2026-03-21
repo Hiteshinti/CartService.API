@@ -25,9 +25,13 @@ using System.Net;
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{ex.GetType().ToString()}:{ex.Message}");
+                _logger.LogError(ex, "Unhandled exception while processing request.");
+                httpContext.Response.ContentType = "application/json";
                 httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                await httpContext.Response.WriteAsync(ex.Message );
+                await httpContext.Response.WriteAsJsonAsync(new
+                {
+                    Message = "An unexpected error occurred."
+                });
             }
 
         }

@@ -13,19 +13,19 @@ namespace CartService.Core
     {
         private readonly ICartRepository _cartRepository;
         private readonly IMapper _mapper;
-        public CartService(IMapper mapper, ICartRepository cartRepository) 
-        { 
-            _cartRepository = cartRepository;   
-            _mapper = mapper;   
-        }    
+        public CartService(IMapper mapper, ICartRepository cartRepository)
+        {
+            _cartRepository = cartRepository;
+            _mapper = mapper;
+        }
 
         public async Task<CartResponseDto?> AddItems(List<CartItemDto> cartItems, Guid userId)
         {
             Cart cart = _mapper.Map<Cart>(cartItems);
             cart.UserId = userId;
 
-            await _cartRepository.AddItemsToCart(cart);
-            return _mapper.Map<CartResponseDto>(cart);  
+            var savedCart = await _cartRepository.AddItemsToCart(cart);
+            return savedCart is null ? null : _mapper.Map<CartResponseDto>(savedCart);
         }
 
     }
