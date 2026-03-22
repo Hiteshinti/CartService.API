@@ -1,0 +1,18 @@
+services:
+ cartservice.api:
+    container_name: cartservice.api
+    build:
+      context: .
+      dockerfile: CartService.API/Dockerfile
+    image: usercontianerregistry.azurecr.io/cartserviceapp:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+        - "8080:8080"
+      # - "5067:9000"
+    networks:
+      - ocelot-shared-network
+
+networks:
+  ocelot-shared-network:
+    external: true
