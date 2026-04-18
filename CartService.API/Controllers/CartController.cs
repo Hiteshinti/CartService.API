@@ -41,5 +41,16 @@ namespace CartService.API.Controllers
             return Ok(cartResponseDto); 
             
         }
+
+        [HttpGet("GetCartItemsById")]
+        public async Task<IActionResult> GetCartItemsById(string userId)
+        {
+             var Userid= User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            _logger.LogInformation("userId for Getting caritems" + userId);
+            CartResponseDto? cartResponseDto =  await _cartService.GetItems(Guid.Parse(userId));
+            return Ok(cartResponseDto);
+
+        }
+
     }
 }

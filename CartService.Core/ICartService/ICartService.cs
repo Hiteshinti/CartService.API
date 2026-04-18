@@ -10,5 +10,6 @@ namespace CartService.Core
     public interface ICartService
     {
         Task<CartResponseDto?> AddItems(List<CartItemDto> cartItems, Guid userId);
+        Task<CartResponseDto?> GetItems(Guid userId);   
     }
 }

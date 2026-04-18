@@ -44,5 +44,23 @@ namespace CartService.Infrastructure
             }
              
         }
+
+        public async Task<Cart?> GetItemsFromCart(Guid userId)
+        {
+            var param = new DynamicParameters();
+            param.Add("@UserId", userId);
+
+            using (var result = await _dbcontext.DbConnection.QueryMultipleAsync(Constants.GetCartItems, param, commandType: CommandType.StoredProcedure))
+            {
+                var cart = await result.ReadFirstOrDefaultAsync<Cart>();
+                var items = await result.ReadAsync<Items>();
+
+                if (cart == null)
+                    return null;
+
+                cart.items = items.ToList();
+                return cart;
+            }
+        }
     }
 }

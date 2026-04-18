@@ -9,9 +9,10 @@ namespace CartService.Core.Dto
      public record CartResponseDto(
          Guid CartId, 
          Guid UserId, 
+         CartItemDto[] CartItems,
          bool? success)
-    {
-         public CartResponseDto():this(default,default,default)
+     {
+         public CartResponseDto():this(default,default,default,default)
          {
 
          }

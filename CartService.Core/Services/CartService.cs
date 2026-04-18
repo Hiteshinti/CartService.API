@@ -25,8 +25,12 @@ namespace CartService.Core
             cart.UserId = userId;
 
             await _cartRepository.AddItemsToCart(cart);
+            return _mapper.Map<CartResponseDto>(cart);
+        }
+        public async Task<CartResponseDto?> GetItems(Guid userId)
+        {
+            var cart = await _cartRepository.GetItemsFromCart(userId);
             return _mapper.Map<CartResponseDto>(cart);  
         }
-
     }
 }

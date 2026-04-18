@@ -23,7 +23,15 @@ namespace CartService.Core.Mappers
 
             CreateMap<Cart, CartResponseDto>()
                 .ForMember(dest => dest.CartId, opt => opt.MapFrom(opt => opt.CartId))
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(opt => opt.UserId));
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(opt => opt.UserId))
+                .ForMember(dest => dest.CartItems, opt => opt.MapFrom(opt => opt.items.Select(i => new CartItemDto
+                {
+                    ItemId = i.ItemId.ToString(),
+                    ItemName = i.ItemName,
+                    Quantity = i.Quantity,
+                    Price = i.Price
+                }).ToArray()))
+                .ForMember(dest => dest.success, opt => opt.MapFrom(_ => true));    
         }   
     }
 }
