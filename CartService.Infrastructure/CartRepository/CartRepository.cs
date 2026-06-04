@@ -29,9 +29,9 @@ namespace CartService.Infrastructure
             param.Add("@CartId", cartItems.CartId);
             param.Add("@UserId", cartItems.UserId);
             param.Add("@items", cartItems.items.ToSqlRecords().AsTableValuedParameter("dbo.ItemTableType"));
-              
 
-            using (var result = await _dbcontext.DbConnection.QueryMultipleAsync(Constants.InsertCartItem, param, commandType:CommandType.StoredProcedure))
+
+            using (var result = await _dbcontext.DbConnection.QueryMultipleAsync(Constants.InsertCartItem, param, commandType: CommandType.StoredProcedure))
             {
                 var cart = await result.ReadFirstOrDefaultAsync<Cart>();
                 var items = await result.ReadAsync<Items>();
@@ -61,6 +61,7 @@ namespace CartService.Infrastructure
                 cart.items = items.ToList();
                 return cart;
             }
+            
         }
     }
 }

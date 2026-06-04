@@ -34,9 +34,18 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpClient("MyApiClient");
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = $"{builder.Configuration["REDIS_HOST"]}:{builder.Configuration["REDIS_PORT"]}";
 
+});
+var connectionString =
+    $"{builder.Configuration["REDIS_HOST"]}:{builder.Configuration["REDIS_PORT"]}";
+
+Console.WriteLine($"Redis Connection String = {connectionString}");
 
 //app.MapGet("/", () => "Hello World!");
+builder.WebHost.UseUrls("http://*:9090");
 var app = builder.Build();
 app.UseCors("AllowAll");
 app.UseAuthorization();

@@ -4,12 +4,14 @@ services:
     build:
       context: .
       dockerfile: CartService.API/Dockerfile
-    image: usercontianerregistry.azurecr.io/cartserviceapp:latest
+    image: cartserviceapp:latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:9090
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     ports:
-        - "8080:8080"
-      # - "5067:9000"
+        - "9090:9090" 
     networks:
       - ocelot-shared-network
 

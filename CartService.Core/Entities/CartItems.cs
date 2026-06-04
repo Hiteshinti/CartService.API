@@ -17,7 +17,8 @@ namespace CartService.Core.Entities
 
     }
     public class Items
-    { 
+    {
+        [Key]
         public Guid ItemId { get; set; }  
         public string ItemName { get; set; }  
         public int? Quantity { get; set; }  

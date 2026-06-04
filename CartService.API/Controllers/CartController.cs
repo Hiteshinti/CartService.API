@@ -2,6 +2,9 @@
 using CartService.Core.Dto;
 using CartService.Core.IProviders;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace CartService.API.Controllers
 {
@@ -12,14 +15,17 @@ namespace CartService.API.Controllers
         private readonly ICartService _cartService;
         private readonly IUserProvider _userProvider;
         private readonly ILogger<CartController> _logger;
+        private readonly IDistributedCache _cache;
         public CartController (
         ICartService cartService, 
         IUserProvider userProvider,
-        ILogger<CartController> logger) 
+        ILogger<CartController> logger,
+        IDistributedCache cache) 
         { 
             _cartService = cartService;
             _userProvider = userProvider;   
             _logger = logger;   
+            _cache=cache;   
 
         }
 
@@ -43,11 +49,29 @@ namespace CartService.API.Controllers
         }
 
         [HttpGet("GetCartItemsById")]
-        public async Task<IActionResult> GetCartItemsById(string userId)
+        public async Task<IActionResult> GetCartItemsById()
         {
-             var Userid= User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            string? authHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            _logger.LogInformation("token for logged in user:" + authHeader);
+
+            var userId = await _userProvider.ValidateUser(authHeader);
+            if (string.IsNullOrEmpty(userId))
+                  return Unauthorized();
+
             _logger.LogInformation("userId for Getting caritems" + userId);
-            CartResponseDto? cartResponseDto =  await _cartService.GetItems(Guid.Parse(userId));
+            var cachedValue = await _cache.GetStringAsync(userId);
+           
+            CartResponseDto? cartResponseDto = string.IsNullOrEmpty(cachedValue)
+                ? await _cartService.GetItems(Guid.Parse(userId))
+                : JsonSerializer.Deserialize<CartResponseDto>(cachedValue);
+
+            if (string.IsNullOrEmpty(cachedValue))
+            {
+                await _cache.SetStringAsync(
+                    userId,
+                    JsonSerializer.Serialize(cartResponseDto));
+            }
+
             return Ok(cartResponseDto);
 
         }
