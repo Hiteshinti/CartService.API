@@ -23,7 +23,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore Dependencies
-        run: dotnet restore CartService.sln
+        run: dotnet restore CartService.API\CartService.sln
 
       - name: Build Solution
-        run: dotnet build CartService.sln --configuration Release --no-restore
+        run: dotnet build CartService.API\CartService.sln --configuration Release --no-restore
