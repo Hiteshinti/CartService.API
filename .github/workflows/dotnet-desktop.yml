@@ -3,13 +3,12 @@ name: Build .NET 8
 on:
   push:
     branches:
-      - main
-    
+      - master
 
   pull_request:
     branches:
-      - main
-    
+      - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
