@@ -21,6 +21,6 @@ namespace CartService.Infrastructure.DbContext
               _connection = new SqlConnection(constr);
         }
 
-        public IDbConnection DbConnection => _connection;
+        public IDbConnection DbConnection =>  _connection;
     }
 }
