@@ -45,7 +45,7 @@ namespace CartService.Infrastructure
              
         }
 
-        public async Task<Cart?> GetItemsFromCart(Guid userId)
+        public async Task<Cart?> GetItemsFromCart(string userId)
         {
             var param = new DynamicParameters();
             param.Add("@UserId", userId);

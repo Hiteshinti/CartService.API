@@ -9,7 +9,7 @@ namespace CartService.Core
 {
     public interface ICartService
     {
-        Task<CartResponseDto?> AddItems(List<CartItemDto> cartItems, Guid userId);
-        Task<CartResponseDto?> GetItems(Guid userId);   
+        Task<CartResponseDto?> AddItems(List<CartItemDto> cartItems, Guid userId, string cartId);
+        Task<CartResponseDto?> GetItems(string userId);   
     }
 }

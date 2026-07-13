@@ -10,6 +10,6 @@ namespace CartService.Core
     public interface ICartRepository
     {
         Task<Cart?> AddItemsToCart(Cart cart);
-        Task<Cart?> GetItemsFromCart(Guid userId);
+        Task<Cart?> GetItemsFromCart(string userId);
     }
 }

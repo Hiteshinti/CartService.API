@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Net;
 
@@ -9,11 +10,12 @@ using System.Net;
 
         private readonly RequestDelegate _context;
         private readonly ILogger<ExceptionMiddleWare> _logger;
-
-        public ExceptionMiddleWare(RequestDelegate context, ILogger<ExceptionMiddleWare> logger)
+        private readonly IConfiguration _configuration;
+        public ExceptionMiddleWare(RequestDelegate context, ILogger<ExceptionMiddleWare> logger, IConfiguration configuration)
         {
             _context = context;
             _logger = logger;
+            _configuration = configuration; 
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -27,6 +29,10 @@ using System.Net;
             {
                 _logger.LogError($"{ex.GetType().ToString()}:{ex.Message}");
                 httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                _logger.LogError($"Exception: {ex.Message}");
+                _logger.LogError($"HOST:{_configuration["RabitMQ_HOST"]+_configuration["RabitMQ_PORT"]+_configuration["RabitMQ_USER"]+ 
+                    _configuration["RabitMQ_PASSWORD"]}");
+               
                 await httpContext.Response.WriteAsync(ex.Message );
             }
 

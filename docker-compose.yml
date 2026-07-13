@@ -4,12 +4,16 @@ services:
     build:
       context: .
       dockerfile: CartService.API/Dockerfile
-    image: cartserviceapp:latest
+    image: cartserviceapp:1.0.0
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:9090
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - RabitMQ_HOST=rabbitmq  
+      - RabitMQ_PORT=5672   
+      - RabitMQ_USER=guest    
+      - RabitMQ_PASSWORD=guest
     ports:
         - "9090:9090" 
     networks:

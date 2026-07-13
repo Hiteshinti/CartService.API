@@ -18,7 +18,6 @@ namespace CartService.Core.Mappers
             CreateMap<CartItemDto, Items>();
             // map collection -> Cart
             CreateMap<IEnumerable<CartItemDto>, Cart>()
-                .ForMember(dest => dest.CartId, opt => opt.MapFrom(_ => Guid.NewGuid()))
                 .ForMember(dest => dest.items, opt => opt.MapFrom(src => src));
 
             CreateMap<Cart, CartResponseDto>()

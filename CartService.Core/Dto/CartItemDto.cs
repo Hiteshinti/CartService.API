@@ -8,7 +8,7 @@ namespace CartService.Core.Dto
 {
     public  class CartItemDto
     {
-
+   
         public string ItemId { get; set; }
         public int? Quantity { get; set; }
         public string ItemName {  get; set; } 
