@@ -3,13 +3,11 @@ name: Build .NET 8
 on:
   push:
     branches:
-      - main
-      - develop
+      - master
 
   pull_request:
     branches:
-      - main
-      - develop
+      - master
 
 jobs:
   build:
@@ -25,7 +23,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore Dependencies
-        run: dotnet restore CartService.sln
+        run: dotnet restore ./CartService.API/CartService.API.csproj 
 
       - name: Build Solution
-        run: dotnet build CartService.sln --configuration Release --no-restore
+        run: dotnet build ./CartService.API/CartService.API.csproj  --configuration Release --no-restore
